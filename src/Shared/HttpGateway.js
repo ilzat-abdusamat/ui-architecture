@@ -1,33 +1,34 @@
 export default class HttpGateway {
-  apiUrl = 'https://api.logicroom.co/api/pete@logicroom.co/';
+  API = 'https://api.logicroom.co/api/hello@logicroom.co';
 
-  // get = async (url) => {
-  //   const response = await fetch(this.apiUrl + url);
-  //   const dto = response.json();
-  //   return dto;
-  // };
+  booksData = [
+    { id: 1, name: 'Book 1', author: 'Author 1' },
+    { id: 2, name: 'Book 2', author: 'Author 2' },
+  ];
+
   get = async (url) => {
-    let booksData = [
-      { id: 1, name: 'Book 1', author: 'Author 1' },
-      { id: 2, name: 'Book 2', author: 'Author 2' },
-    ];
-
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      return booksData;
+      return this.booksData;
     } catch (error) {
       console.error('Error:', error);
       return [];
     }
   };
 
-  post = async (url, data) => {
-    await fetch(this.apiUrl + url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+  post = async (url, payload) => {
+    try {
+      const newBookId = this.booksData.length + 1;
+      const newBook = {
+        id: newBookId,
+        name: payload.name,
+        author: payload.author,
+      };
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      this.booksData.push(newBook);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 }

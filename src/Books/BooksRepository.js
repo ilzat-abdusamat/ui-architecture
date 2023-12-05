@@ -1,25 +1,28 @@
 import HttpGateway from '../Shared/HttpGateway.js';
+import Observable from './Observable.js';
 
 class BooksRepository {
+  programmersModel = null;
+  httpGateway = null;
+
   constructor() {
     this.httpGateway = new HttpGateway();
+    this.programmersModel = new Observable([]);
   }
 
-  getBooks = async () => {
-    const response = await this.httpGateway.get(
-      'https://api.logicroom.co/api/aa@logicroom.co/books'
-    );
-    const booksPm = response;
-    return booksPm;
+  getBooks = async (subscriber) => {
+    await this.programmersModel.subscribe(subscriber);
+    await this.loadApiData();
+    this.programmersModel.print();
   };
 
   addBook = async (newBook) => {
-    const response = await this.httpGateway.post(
-      'https://api.logicroom.co/api/aa@logicroom.co/books',
-      newBook
-    );
-    const booksPm = response.result;
-    return booksPm;
+    await this.httpGateway.post('/books', newBook);
+  };
+
+  loadApiData = async () => {
+    this.programmersModel.value = await this.httpGateway.get('/books');
+    this.programmersModel.notify();
   };
 }
 

@@ -1,17 +1,16 @@
 import booksRepository from './BooksRepository';
 
 export default class BooksPresenter {
-  load = async () => {
-    const booksPm = await booksRepository.getBooks();
-    const booksVm = booksPm.map((pmBook) => {
-      return {
-        visibleName: pmBook.name,
-      };
+  load = async (callback) => {
+    await booksRepository.getBooks((booksPm) => {
+      const booksVm = booksPm.map((bookPm) => {
+        return { displayName: bookPm.name };
+      });
+      callback(booksVm);
     });
-    return booksVm;
   };
 
-  addBook = async (newBook) => {
-    await booksRepository.addBook(newBook);
+  addBook = async (sampleBook) => {
+    await booksRepository.addBook(sampleBook);
   };
 }
