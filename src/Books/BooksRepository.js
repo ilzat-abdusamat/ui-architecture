@@ -15,6 +15,12 @@ class BooksRepository {
 
   addBook = async (newBook) => {
     await httpGateway.post('/books', newBook);
+    await this.loadApiData();
+  };
+
+  deleteBook = async (index) => {
+    await httpGateway.delete('/books', index);
+    await this.loadApiData();
   };
 
   loadApiData = async () => {

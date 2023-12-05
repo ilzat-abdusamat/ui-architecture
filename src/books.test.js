@@ -7,7 +7,7 @@ import { beforeEach } from 'vitest';
 import Observable from './Books/Observable';
 import booksRepository from './Books/BooksPresenter';
 
-describe('GET Books', () => {
+describe('Books', () => {
   let booksStub = null;
 
   beforeEach(() => {
@@ -48,6 +48,12 @@ describe('GET Books', () => {
     let booksPresenter = new BooksPresenter();
     let viewModel = null;
 
+    await booksPresenter.load((vm) => {
+      viewModel = vm;
+    });
+
+    expect(viewModel.length).toBe(2);
+
     const newBook = {
       name: 'catty cat',
       author: 'ilzat',
@@ -56,13 +62,28 @@ describe('GET Books', () => {
     booksStub.push(newBook);
 
     await booksPresenter.addBook(newBook);
+
+    expect(httpGateway.post).toHaveBeenLastCalledWith('/books', newBook);
+    expect(viewModel.length).toBe(3);
+    expect(viewModel[2].displayName).toBe('catty cat');
+  });
+
+  it('should delete a book from API', async () => {
+    httpGateway.delete = vitest.fn();
+
+    const booksPresenter = new BooksPresenter();
+    let viewModel = null;
+
     await booksPresenter.load((vm) => {
       viewModel = vm;
     });
 
-    console.log(viewModel);
+    expect(viewModel.length).toBe(2);
 
-    expect(httpGateway.post).toHaveBeenLastCalledWith('/books', newBook);
-    expect(viewModel.length).toBe(3);
+    // Delete a book
+    booksStub.splice(0, 1);
+    await booksPresenter.deleteBook(0);
+
+    expect(viewModel.length).toBe(1);
   });
 });

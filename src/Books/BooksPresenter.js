@@ -13,4 +13,7 @@ export default class BooksPresenter {
   addBook = async (sampleBook) => {
     await booksRepository.addBook(sampleBook);
   };
+  deleteBook = async (index) => {
+    await booksRepository.deleteBook(index);
+  };
 }

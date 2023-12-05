@@ -31,6 +31,15 @@ class HttpGateway {
       console.error('Error:', error);
     }
   };
+
+  delete = async (url, index) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      this.booksData = this.booksData.filter((book, i) => i != index);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 }
 
 const httpGateway = new HttpGateway();

@@ -22,6 +22,12 @@ export default function App() {
     load();
   };
 
+  const deleteBook = (key) => {
+    console.log(key);
+    booksPresenter.deleteBook(key);
+    load();
+  };
+
   useEffect(() => {
     load();
   }, []);
@@ -29,7 +35,12 @@ export default function App() {
   return (
     <div className='App'>
       {vm.map((bookVm, key) => {
-        return <h2 key={key}>{bookVm.displayName}</h2>;
+        return (
+          <h2 key={key}>
+            {bookVm.displayName}{' '}
+            <button onClick={() => deleteBook(key)}>delete</button>
+          </h2>
+        );
       })}
 
       <form onSubmit={addBook}>
