@@ -11,12 +11,14 @@ export default function App() {
     });
   };
 
-  const addBook = () => {
-    const sampleBook = {
-      name: 'my private book',
-      author: 'my private author',
+  const addBook = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    const newBook = {
+      name: data.get('name'),
+      authro: data.get('author'),
     };
-    booksPresenter.addBook(sampleBook);
+    booksPresenter.addBook(newBook);
     load();
   };
 
@@ -29,7 +31,22 @@ export default function App() {
       {vm.map((bookVm, key) => {
         return <h2 key={key}>{bookVm.displayName}</h2>;
       })}
-      <button onClick={addBook}>Add a book</button>
+
+      <form onSubmit={addBook}>
+        <input
+          type='text'
+          placeholder='name'
+          name='name'
+          id=''
+        />
+        <input
+          type='text'
+          placeholder='author'
+          name='author'
+          id=''
+        />
+        <button>Add a book</button>
+      </form>
     </div>
   );
 }

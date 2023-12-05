@@ -1,4 +1,4 @@
-export default class HttpGateway {
+class HttpGateway {
   API = 'https://api.logicroom.co/api/hello@logicroom.co';
 
   booksData = [
@@ -32,3 +32,6 @@ export default class HttpGateway {
     }
   };
 }
+
+const httpGateway = new HttpGateway();
+export default httpGateway;

@@ -23,8 +23,4 @@ export default class Observable {
       observer(this._value);
     });
   };
-
-  print = () => {
-    console.log('this._value', this._value);
-  };
 }
