@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "result": [
+    {
+      "bookId": 147961,
+      "name": "Wind in the willows",
+      "ownerId": "aa@logicroom.co",
+      "author": "Kenneth Graeme"
+    },
+    {
+      "bookId": 147971,
+      "name": "I, Robot",
+      "ownerId": "aa@logicroom.co",
+      "author": "Isaac Asimov"
+    },
+    {
+      "bookId": 147981,
+      "name": "The Hobbit",
+      "ownerId": "aa@logicroom.co",
+      "author": "Jrr Tolkein"
+    }
+  ]
+}
