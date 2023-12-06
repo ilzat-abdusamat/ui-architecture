@@ -6,17 +6,23 @@ class HttpGateway {
     { id: 2, name: 'Book 2', author: 'Author 2' },
   ];
 
-  get = async (url) => {
+  allBooksData = [
+    { id: 1, name: 'Book 1', author: 'Author 1' },
+    { id: 2, name: 'Book 2', author: 'Author 2' },
+    { id: 3, name: 'Book 3', author: 'Author 3' },
+  ];
+
+  get = async (mode) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      return this.booksData;
+      return mode === 'books' ? this.booksData : this.allBooksData;
     } catch (error) {
       console.error('Error:', error);
       return [];
     }
   };
 
-  post = async (url, payload) => {
+  post = async (mode, payload) => {
     try {
       const newBookId = this.booksData.length + 1;
       const newBook = {

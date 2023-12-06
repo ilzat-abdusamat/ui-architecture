@@ -4,10 +4,14 @@ export default class BooksPresenter {
   load = async (callback) => {
     await booksRepository.getBooks((booksPm) => {
       const booksVm = booksPm.map((bookPm) => {
-        return { displayName: bookPm.name };
+        return { name: bookPm.name };
       });
       callback(booksVm);
     });
+  };
+
+  setMode = (path) => {
+    booksRepository.mode = path === 'public' ? 'allBooks' : 'books';
   };
 
   addBook = async (sampleBook) => {

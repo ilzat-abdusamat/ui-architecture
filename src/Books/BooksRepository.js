@@ -3,6 +3,7 @@ import Observable from './Observable.js';
 
 class BooksRepository {
   programmersModel = null;
+  mode = null;
 
   constructor() {
     this.programmersModel = new Observable([]);
@@ -24,7 +25,7 @@ class BooksRepository {
   };
 
   loadApiData = async () => {
-    this.programmersModel.value = await httpGateway.get('/books');
+    this.programmersModel.value = await httpGateway.get(this.mode);
     this.programmersModel.notify();
   };
 }

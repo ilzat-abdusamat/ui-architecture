@@ -37,7 +37,7 @@ export default function App() {
       {vm.map((bookVm, key) => {
         return (
           <h2 key={key}>
-            {bookVm.displayName}{' '}
+            {bookVm.name}
             <button onClick={() => deleteBook(key)}>delete</button>
           </h2>
         );
