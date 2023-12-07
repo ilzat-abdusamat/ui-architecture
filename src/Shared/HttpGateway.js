@@ -6,23 +6,17 @@ class HttpGateway {
     { id: 2, name: 'Book 2', author: 'Author 2' },
   ];
 
-  allBooksData = [
-    { id: 1, name: 'Book 1', author: 'Author 1' },
-    { id: 2, name: 'Book 2', author: 'Author 2' },
-    { id: 3, name: 'Book 3', author: 'Author 3' },
-  ];
-
-  get = async (mode) => {
+  get = async (path) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      return mode === 'books' ? this.booksData : this.allBooksData;
+      return this.booksData;
     } catch (error) {
       console.error('Error:', error);
       return [];
     }
   };
 
-  post = async (mode, payload) => {
+  post = async (path, payload) => {
     try {
       const newBookId = this.booksData.length + 1;
       const newBook = {
@@ -33,15 +27,6 @@ class HttpGateway {
 
       await new Promise((resolve) => setTimeout(resolve, 500));
       this.booksData.push(newBook);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  delete = async (url, index) => {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      this.booksData = this.booksData.filter((book, i) => i != index);
     } catch (error) {
       console.error('Error:', error);
     }

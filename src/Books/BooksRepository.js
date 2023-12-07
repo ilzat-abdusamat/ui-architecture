@@ -1,32 +1,51 @@
-import httpGateway from '../Shared/HttpGateway.js';
-import Observable from './Observable.js';
+import httpGateway from '../Shared/HttpGateway';
+import Observable from '../Shared/Observable';
 
 class BooksRepository {
-  programmersModel = null;
-  mode = null;
+  booksPm = null;
+  lastAddedBookPm = null;
+  mode = 'books';
 
   constructor() {
-    this.programmersModel = new Observable([]);
+    this.booksPm = new Observable([]);
+    this.lastAddedBookPm = new Observable('');
   }
 
-  getBooks = async (subscriber) => {
-    await this.programmersModel.subscribe(subscriber);
-    await this.loadApiData();
+  getBooks = async (callback) => {
+    this.booksPm.subscribe(callback);
+    if (this.booksPm.value.length === 0) {
+      console.log(this.booksPm.value.length === 0);
+      await this.loadApiData();
+    } else {
+      this.refreshModelData();
+    }
   };
 
-  addBook = async (newBook) => {
-    await httpGateway.post('/books', newBook);
+  addBook = async (programmersModel) => {
+    let dto = {
+      name: programmersModel.name,
+      author: programmersModel.author,
+    };
+    await httpGateway.post('/books', dto);
     await this.loadApiData();
+    this.lastAddedBookPm.value = programmersModel.name;
   };
 
-  deleteBook = async (index) => {
-    await httpGateway.delete('/books', index);
-    await this.loadApiData();
+  getLastAddedBook = async (callback) => {
+    this.lastAddedBookPm.subscribe(callback);
   };
 
   loadApiData = async () => {
-    this.programmersModel.value = await httpGateway.get(this.mode);
-    this.programmersModel.notify();
+    const dto = await httpGateway.get('/books');
+    this.booksPm.value = dto.map((dtoItem) => {
+      return dtoItem;
+    });
+  };
+
+  refreshModelData = () => {
+    this.booksPm.value = this.booksPm.value.map((pm) => {
+      return pm;
+    });
   };
 }
 

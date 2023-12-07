@@ -12,6 +12,7 @@ export default class Observable {
 
   set value(value) {
     this._value = value;
+    this.notify();
   }
 
   subscribe = (observer) => {
